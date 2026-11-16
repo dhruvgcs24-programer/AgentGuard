@@ -1,0 +1,7 @@
+{
+  "state": "TRUSTED",
+  "mode": "enforce",
+  "pid": 8824,
+  "landlock_abi": 7,
+  "has_kernel_c_executor": true
+}

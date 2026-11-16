@@ -1,0 +1,33 @@
+version: '1.0'
+name: agentguard_default_policy
+description: Pre-configured Landlock LSM & eBPF guardrail profile for local Ollama agent
+landlock_abi_target: 4
+
+filesystem:
+  read_only_paths:
+    - ./project
+    - /usr/lib
+    - /lib
+  write_only_paths:
+    - ./output
+    - /tmp
+  forbidden_denylist:
+    - /etc/shadow
+    - /etc/passwd
+    - ~/.ssh/id_rsa
+    - credentials.env
+    - .env
+
+network:
+  allowed_tcp_ports:
+    - 11434 # Local Ollama LLM API
+  allowed_hosts:
+    - 127.0.0.1
+    - localhost
+  block_all_outbound_by_default: true
+
+taint_policy:
+  auto_enforce_on_taint: true
+  cascade_to_child_pids: true
+  alert_channel: kernel_ringbuf
+

@@ -1,0 +1,21 @@
+version: '1.0'
+name: agentguard_least_privilege_baseline
+description: Synthesized Landlock + eBPF security boundary for Ollama Agent workloads
+landlock_abi_target: 4
+filesystem:
+  read_only_paths:
+  - /workspace/project
+  write_only_paths:
+  - /workspace/output
+  forbidden_denylist:
+  - /etc/shadow
+  - /etc/passwd
+  - ~/.ssh
+  - credentials.env
+network:
+  allowed_tcp_ports:
+  - 11434
+  block_all_outbound_by_default: true
+taint_policy:
+  transition_action: RESTRICT_TO_AUDIT_OR_BLOCK
+  cascade_to_child_pids: true
